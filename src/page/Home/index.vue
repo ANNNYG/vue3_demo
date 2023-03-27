@@ -1,68 +1,50 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <h2>name:{{ name }}</h2>
-    <button @click="handleChangeName">改变name</button>
-    <h2>age:{{ age }}</h2>
-    <button @click="hanldleChangeAge">改变age</button>
-    <h2>地址:{{ information.address }}</h2>
-    <button @click="handleChangeAddress">改变地址</button>
-    <h2>电话：{{ refInf.tel }}</h2>
-    <button @click="handleChangeTel">ref和reactive的不同</button>
+    <!-- 
+        如果发现报错了Syntax Error: TypeError: this.getOptions is not a function,因为包版本过高
+        npm install node-sass@4.14.1  --save-dev   //安装node-sass指定版本
+        npm install sass-loader@7.3.1  --save-dev  //安装依赖包sass-loader指定版本
+        npm install style-loader  --save-dev       //安装style-loader
+      -->
+    <div
+      class="title"
+      v-for="router in routers"
+      :key="router.title"
+      @click="handleClick(router.path)"
+    >
+      <el-link>{{ router.title }}</el-link>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+import Routers from "@/router/router.js";
 
 export default {
-  //注意：setup不能是一个async函数，因为返回值不再是return的对象, 而是promise, 模板看不到return对象中的属性。
   setup() {
-    //这个值不是相应式的
-    let name = "Tom";
+    const $router = useRouter();
 
-    //ref函数定义一个响应式的数据 返回一个RefImpl对象，需要修改里面的value值
-    const age = ref(18);
+    const routers = ref(Routers);
 
-    //reactive作用: 定义一个对象类型的响应式数据（基本类型不要用它，要用re函数）
-    const information = reactive({ tel: "18888888888", address: "广东" });
-
-    //基本类型的数据：响应式依然是靠Object.defineProperty()的get与set完成的。
-    //对象类型的数据：内部使用了Vue3.0中的一个新函数——reactive函数。
-    const refInf = ref({ tel: "18888888888", address: "广东" });
-
-    const handleChangeName = () => {
-      console.log(name, "name");
-      name = "Jony";
-      console.log(name, "name非响应式数据");
+    const handleClick = (path) => {
+      $router.push(path);
     };
 
-    const hanldleChangeAge = () => {
-      console.log(age, "age ref函数定义的响应式数据");
-      age.value += 1;
-    };
-
-    const handleChangeAddress = () => {
-      console.log(information, "information reactive函数定义的响应式数据");
-      information.address = "深圳";
-    };
-
-    const handleChangeTel = () => {
-      console.log(refInf, "ref");
-      console.log(information, "reactive");
-      refInf.value.tel = "19999999999";
-    };
     return {
-      name,
-      handleChangeName,
-      age,
-      hanldleChangeAge,
-      information,
-      handleChangeAddress,
-      refInf,
-      handleChangeTel,
+      routers,
+      handleClick,
     };
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.title {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px #ececec solid;
+}
+</style>
