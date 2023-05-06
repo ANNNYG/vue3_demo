@@ -19,4 +19,21 @@ const router = createRouter({
   routes: [redirect, ...routes],
 });
 
+// 模拟鉴权登陆
+const isLogin = true;
+
+// 注意死循环
+router.beforeEach((to, from, next) => {
+  if (!isLogin && to.name !== "home") {
+    next({ name: "home" });
+  }
+
+  if (isLogin) {
+    next();
+    return;
+  }
+
+  next();
+});
+
 export default router;

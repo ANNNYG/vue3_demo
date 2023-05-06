@@ -3,6 +3,8 @@ import { createApp } from "vue";
 // element-ui
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+// pinia
+import { createPinia } from "pinia";
 
 import router from "./router";
 import App from "./App.vue";
@@ -18,8 +20,11 @@ new Vue({
 //vue3 createApp(App).mount('#app')
 const app = createApp(App);
 
+const pinia = createPinia();
+
 //使用插件
 app.use(router);
 app.use(ElementPlus);
+app.use(pinia);
 
 app.mount("#app");

@@ -5,6 +5,7 @@ const HomeAsync = defineAsyncComponent(() => import("@/page/Home"));
 const TestComponentVModule = defineAsyncComponent(() =>
   import("@/page/TextComponentVModule")
 );
+const StudyPinia = defineAsyncComponent(() => import("@/page/Studypinia"));
 
 import InputComponents from "@/page/InputComponent";
 import Commun from "@/page/Communication/father.vue";
@@ -40,5 +41,11 @@ export default [
     path: "/testComponentVModule",
     name: "InputComponents",
     component: TestComponentVModule,
+  },
+  {
+    title: "pinia学习",
+    path: "/study-pinia",
+    name: "studyPinia",
+    component: StudyPinia,
   },
 ];
